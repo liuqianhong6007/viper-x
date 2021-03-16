@@ -26,7 +26,7 @@ type DB struct {
 func TestReadConf(t *testing.T) {
 	var conf Config
 
-	ReadConf(&conf)
+	ReadConf("demo", &conf)
 
 	fmt.Println(conf)
 }

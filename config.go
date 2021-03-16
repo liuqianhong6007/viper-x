@@ -12,8 +12,7 @@ import (
 	_ "github.com/spf13/viper/remote"
 )
 
-
-func ReadConf(obj interface{}) {
+func ReadConf(configName string, obj interface{}) {
 	// read flag
 	pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
 	pflag.Parse()
@@ -28,19 +27,21 @@ func ReadConf(obj interface{}) {
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 
 	// read config file
-	viper.SetConfigName("demo")
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath("/etc/")
-	viper.AddConfigPath(".")
-	err = viper.ReadInConfig()
-	if err != nil {
-		panic(fmt.Sprintf("Fatal error while reading config file: %s\n", err))
-	}
+	if configName != "" {
+		viper.SetConfigName(configName)
+		viper.SetConfigType("yaml")
+		viper.AddConfigPath("/etc/")
+		viper.AddConfigPath(".")
+		err = viper.ReadInConfig()
+		if err != nil {
+			panic(fmt.Sprintf("Fatal error while reading config file: %s\n", err))
+		}
 
-	viper.WatchConfig()
-	viper.OnConfigChange(func(e fsnotify.Event) {
-		// TODO when config file changes, what you expect to do in here
-	})
+		viper.WatchConfig()
+		viper.OnConfigChange(func(e fsnotify.Event) {
+			// TODO when config file changes, what you expect to do in here
+		})
+	}
 
 	unmarshal(obj)
 }
