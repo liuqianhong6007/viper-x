@@ -1,0 +1,10 @@
+server:
+  port: 8080
+  passport_key: shi2qhx1ik32
+
+db:
+  host: 127.0.0.1
+  port: 3306
+  user: user
+  password: password
+  name: demo
